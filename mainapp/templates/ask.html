@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>Форма для вопросов на День Директора</h2>
+
+<form method="post" id="questionForm" data-companies-url="{% url 'ajax_load_companies'  %}">
+        {% csrf_token %}
+    {{ form|crispy }}
+
+    <input type="submit" value="Отправить">
+</form>
+
+<h2>{{thanks}}</h2>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+
+$("#id_division_id").change(function () {
+const url = $("#questionForm").attr("data-companies-url");
+const divisionId = $(this).val();
+
+
+$("#id_company").change(function(){
+
+const company = $(this).val();
+
+if (['17','18','19','20'].includes(company))                          //если компания в списке не найдена
+{$("#div_id_no_name_company.form-group")[0].style.display = "block"; //появляется поле для ввода названия компании
+document.getElementById("id_no_name_company").value = '';            //очистим поле input названия компании
+} else                                                              // если компания в списке найдена
+{$("#div_id_no_name_company.form-group")[0].style.display = "none"; // поле для ввода названия компании не отображается
+document.getElementById("id_no_name_company").value = company;      // присваивается значение компании из списка
+}
+
+});
+
+$.ajax({ url: url,
+        data: { 'division_id': divisionId},
+success: function (data) {
+                $("#id_company").html(data);
+            }
+        });
+
+    });
+
+</script>
+{% endblock %}

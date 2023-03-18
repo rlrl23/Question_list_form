@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+     <title>Задай вопрос</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+td, th{
+border:1px solid grey;}
+    #div_id_no_name_company.form-group{
+    display:none;}
+    </style>
+</head>
+<body>
+<div >
+ {% block content %}
+    {% endblock %}
+ </div>
+
+</body>
+</html>
